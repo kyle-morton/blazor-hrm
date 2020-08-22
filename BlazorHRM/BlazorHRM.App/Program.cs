@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using BlazorHRM.App.Services;
 
 namespace BlazorHRM.App
 {
@@ -17,7 +18,10 @@ namespace BlazorHRM.App
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            // inject pre-configured http client for each service
+            builder.Services.AddHttpClient<IEmployeeService, EmployeeService>(client => { client.BaseAddress = new Uri("https://localhost:44340/"); });
+            //builder.Services.AddHttpClient<ICountryService, CountryService>(client => { client.BaseAddress = new Uri("https://localhost:44340/"); });
+            //builder.Services.AddHttpClient<IJobCategoryService, JobCategoryService>(client => { client.BaseAddress = new Uri("https://localhost:44340/"); });
 
             await builder.Build().RunAsync();
         }

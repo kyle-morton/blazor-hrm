@@ -10,7 +10,7 @@ namespace BlazorHRM.App.Pages
 {
     public class EmployeeDetailBase : ComponentBase
     {
-        [Parameter] 
+        [Parameter]
         public string EmployeeId { get; set; }
         public Employee Employee { get; set; } = new Employee();
 
@@ -20,6 +20,7 @@ namespace BlazorHRM.App.Pages
         protected async override Task OnInitializedAsync()
         {
             Employee = await _employeeService.GetEmployeeDetails(int.Parse(EmployeeId));
+            
         }
     }
 }
